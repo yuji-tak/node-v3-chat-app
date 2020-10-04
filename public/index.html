@@ -5,40 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chat App</title>
   <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed&display=swap" rel="stylesheet">
+  <link rel="icon" href="/img/favicon.png">
+  <link rel="stylesheet" href="/css/styles.min.css">
   <style>
+    #section {
+      width: 336px;
+      padding: 8px;
+      margin: auto;
+    }
     h1 {
-      width: 320px;
+      width: 100%;
       padding: 16px;
       text-align: left;
       font-family: 'Sansita Swashed', cursive;
       color: white;
       background-image: linear-gradient(to right, #FF8235, #30E8BF);
     }
+    .style {
+      margin-bottom: 8px;
+    }
+    #message-form {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    #send-location {
+      display: block;
+      margin: auto;
+      margin-top: 16px;
+    }
   </style>
 </head>
 <body>
-  <h1>🍔 chat app</h1>
+  <section id="section">
+    <h1>🍔 Chat app</h1>
 
-  <!-- テンプレートエンジンの挿入点 -->
-  <div id="messages"></div>
+    <!-- テンプレートエンジンの挿入点 -->
+    <div id="messages"></div>
 
-  <form id="message-form">
-    <label for="msg">Come on🤩</label>
-    <input id="msg" type="text" placeholder="Message">
-    <button>Send</button>
-  </form>
+    <form id="message-form">
+      <label for="msg">Come on🤩</label>
+      <input id="msg" type="text" placeholder="Message">
+      <button>Send</button>
+    </form>
 
-  <button id="send-location">Send location</button>
-
+    <button id="send-location">Send location</button>
+  </section>
   <!-- テンプレートエンジン -->
   <script id="message-template" type="text/html">
-    <div>
+    <div class="style">
       <p>{{createdAt}} - {{message}}</p>
     </div>
   </script>
 
   <script id="location-message-template" type="text/html">
-    <div>
+    <div class="style">
       <p>{{createdAt}} - <a href="{{url}}" target="_blank">My current location</a></p>
     </div>
   </script>
