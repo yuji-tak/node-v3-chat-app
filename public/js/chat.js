@@ -11,12 +11,19 @@ const socket = io()
 //   socket.emit('increment')
 // })
 
+// Elements
+const $messageForm = document.querySelector('#message-form')
+const $messageFormInput = $messageForm.querySelector('input')
+const $messageFormButoon = $messageForm.querySelector('button')
+
 socket.on('message', (message) => {
   console.log(message)
 })
 
-document.querySelector('#message-form').addEventListener('submit', (e) => {
+$messageForm.addEventListener('submit', (e) => {
   e.preventDefault()
+
+  $messageFormButoon.setAttribute('disabled', 'disabled')
 
   const message = e.target.elements.msg.value
   // ↑上記へ書き換え
@@ -28,6 +35,9 @@ document.querySelector('#message-form').addEventListener('submit', (e) => {
   }
 
   socket.emit('sendMessage', message, (error) => {
+    $messageFormButoon.removeAttribute('disabled')
+    $messageFormInput.value = ''
+    $messageFormInput.focus()
 
     if (error) {
       return console.log(error)
@@ -35,9 +45,6 @@ document.querySelector('#message-form').addEventListener('submit', (e) => {
 
     console.log('Message delivered!')
   })
-
-  // subimit後、空欄にする
-  e.target.elements.msg.value = null
 })
 
 document.querySelector('#send-location').addEventListener('click', () => {
