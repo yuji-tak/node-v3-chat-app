@@ -20,20 +20,14 @@ app.use(express.static(publicDirectoryPath))
 io.on('connection', (socket) => {
   console.log('New Websocket connection')
 
-  // ⭐️countUP
-  // let count = 0
-  // socket.emit('countUpdated', count)
+  socket.on('join', ({ username, room }) => {
+    socket.join(room)
 
-  // socket.on('increment', () => {
-  //   count++
-  //   // socket.emit('countUpdated', count)
-  //   io.emit('countUpdated', count)
-  // })
-
-  socket.emit('message', generateMessage('Welcome!'))
-
-  // Broadcasting Event
-  socket.broadcast.emit('message', generateMessage('A new user has joined!'))
+    socket.emit('message', generateMessage('Welcome!'))
+    // Broadcasting Event
+    // to()で、room名をキーに複数分岐させる
+    socket.broadcast.to(room).emit('message', generateMessage(`${username} has joined!`))
+  })
 
   socket.on('sendMessage', (message, callback) => {
     const filter = new Filter()
