@@ -6,7 +6,7 @@ const socketio = require('socket.io')
 // bad-words library
 const Filter = require('bad-words')
 // module.exports
-const { generateMessage } = require('./utils/messages')
+const { generateMessage, generateLocationMessage } = require('./utils/messages')
 
 const app = express()
 const server = http.createServer(app)
@@ -55,7 +55,7 @@ io.on('connection', (socket) => {
 
   // 高階関数の第二引数callbackは、クライアントサイドから高階関数を受け取っている
   socket.on('sendLocation', (coords, callback) => {
-    io.emit('locationMessage', `https://google.com/maps?q=${coords.latitude},${coords.longitude}`)
+    io.emit('locationMessage', generateLocationMessage(`https://google.com/maps?q=${coords.latitude},${coords.longitude}`))
 
     callback()
   })
