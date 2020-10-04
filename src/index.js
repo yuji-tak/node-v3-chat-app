@@ -53,8 +53,8 @@ io.on('connection', (socket) => {
 
   // 高階関数の第二引数callbackは、クライアントサイドから高階関数を受け取っている
   socket.on('sendLocation', (coords, callback) => {
-    io.emit('message', `https://google.com/maps?q=${coords.latitude},${coords.longitude}`)
-    
+    io.emit('locationMessage', `https://google.com/maps?q=${coords.latitude},${coords.longitude}`)
+
     callback()
   })
 
