@@ -1,16 +1,6 @@
 // client side
 const socket = io()
 
-// ⭐️countUP
-// socket.on('countUpdated', (count) => {
-//   console.log('The count has been updated!', count)
-// })
-
-// document.querySelector('#increment').addEventListener('click', () => {
-//   console.log('Clicked!')
-//   socket.emit('increment')
-// })
-
 // Elements
 const $messageForm = document.querySelector('#message-form')
 const $messageFormInput = $messageForm.querySelector('input')
@@ -21,6 +11,16 @@ const $messages = document.querySelector('#messages')
 // Templates
 const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationMessageTemplate = document.querySelector('#location-message-template').innerHTML
+
+// ⭐️countUP
+// socket.on('countUpdated', (count) => {
+//   console.log('The count has been updated!', count)
+// })
+
+// document.querySelector('#increment').addEventListener('click', () => {
+//   console.log('Clicked!')
+//   socket.emit('increment')
+// })
 
 socket.on('message', (message) => {
   console.log(message)
