@@ -28,6 +28,7 @@ socket.on('message', (message) => {
 socket.on('locationMessage', (message) => {
   console.log(message)
   const html = Mustache.render(locationMessageTemplate, {
+    username: message.username,
     url: message.url,
     createdAt: moment(message.createdAt).format('h:mm a')
   })
@@ -48,6 +49,7 @@ $messageForm.addEventListener('submit', (e) => {
     return
   }
 
+  // コールバック関数の引数と、内部の処理は分離されているのか？
   socket.emit('sendMessage', message, (error) => {
     $messageFormButoon.removeAttribute('disabled')
     $messageFormInput.value = ''

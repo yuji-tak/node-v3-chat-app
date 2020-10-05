@@ -39,6 +39,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on('sendMessage', (message, callback) => {
+    const user = getUser(socket.id)
     const filter = new Filter()
 
     // 真偽値を返す
@@ -47,7 +48,7 @@ io.on('connection', (socket) => {
       return callback('Profanity is not allowed!')
     }
 
-    io.emit('message', generateMessage(message))
+    io.to(user.room).emit('message', generateMessage(message))
     callback()
   })
 
@@ -62,7 +63,9 @@ io.on('connection', (socket) => {
 
   // 高階関数の第二引数callbackは、クライアントサイドから高階関数を受け取っている
   socket.on('sendLocation', (coords, callback) => {
-    io.emit('locationMessage', generateLocationMessage(`https://google.com/maps?q=${coords.latitude},${coords.longitude}`))
+    const user = getUser(socket.id)
+
+    io.to(user.room).emit('locationMessage', generateLocationMessage(user.username, `https://google.com/maps?q=${coords.latitude},${coords.longitude}`))
 
     callback()
   })
