@@ -33,6 +33,7 @@
       display: block;
       margin: auto;
       margin-top: 16px;
+      margin-bottom: 16px;
     }
   </style>
 </head>
@@ -50,6 +51,8 @@
     </form>
 
     <button id="send-location">Send location</button>
+
+    <div id="sidebar" class=""></div>
   </section>
   <!-- テンプレートエンジン -->
   <script id="message-template" type="text/html">
@@ -70,6 +73,16 @@
       </p>
       <p><a href="{{url}}" target="_blank">My current location</a></p>
     </div>
+  </script>
+
+  <script id="sidebar-template" type="text/html">
+    <h2 class="room-titleS">Room: {{room}}</h2>
+    <h3 class="list-titleS">Users</h3>
+    <ul class="users">
+      {{#users}}
+        <li>{{username}}</li>
+      {{/users}}
+    </ul>
   </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
