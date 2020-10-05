@@ -1,21 +1,19 @@
 // client side
 const socket = io()
-
 // Elements
 const $messageForm = document.querySelector('#message-form')
 const $messageFormInput = $messageForm.querySelector('input')
 const $messageFormButoon = $messageForm.querySelector('button')
 const $sendLocationButton = document.querySelector('#send-location')
 const $messages = document.querySelector('#messages')
-
 // Templates
 const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationMessageTemplate = document.querySelector('#location-message-template').innerHTML
 const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
-
 // Options
+// CDNで使用しているQsモジュールを用い、クエリ文字列から必要な値を取得
 const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true })
-
+// autoscroll
 const autoscroll = () => {
   // New message element
   const $newMessage = $messages.lastElementChild
@@ -37,7 +35,6 @@ const autoscroll = () => {
     $messages.scrollTop = $messages.scrollHeight
   }
 }
-
 // ⭐️socket start!
 socket.on('message', (message) => {
   console.log(message)
@@ -71,12 +68,8 @@ socket.on('roomData', ({ room, users }) => {
 
 $messageForm.addEventListener('submit', (e) => {
   e.preventDefault()
-
   $messageFormButoon.setAttribute('disabled', 'disabled')
-
   const message = e.target.elements.msg.value
-  // ↑上記へ書き換え
-  // const message = document.querySelector('input').value
 
   // 空欄の排除
   if (!message) {
@@ -115,9 +108,12 @@ $sendLocationButton.addEventListener('click', () => {
   })
 })
 
+// join()
+// Qsモジュールで取得したデータをサーバサイドへ渡す
 socket.emit('join', { username, room }, (error) => {
   if (error) {
     alert(error)
+    // エラーの場合、イニシャルページへ遷移
     location.href = '/'
   }
 })

@@ -9,7 +9,6 @@ const Filter = require('bad-words')
 // module.exports
 const { generateMessage, generateLocationMessage } = require('./utils/messages')
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./utils/users')
-
 // socketioの環境構築
 const app = express()
 const server = http.createServer(app)
@@ -24,6 +23,7 @@ app.use(express.static(publicDirectoryPath))
 io.on('connection', (socket) => {
   console.log('New Websocket connection')
 
+  // 第2-1引数でオブジェクト、第2-2引数で関数を受け取る
   socket.on('join', (options, callback) => {
     const { error, user } = addUser({ id: socket.id, ...options })
 
@@ -44,6 +44,7 @@ io.on('connection', (socket) => {
       users: getUsersInRoom(user.room)
     })
 
+    // 実際の処理自体はクライアントサイドに記載してあり、下記で実行タイミングを制御しているイメージかな？
     callback()
   })
 
