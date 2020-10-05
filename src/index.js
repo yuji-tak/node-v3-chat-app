@@ -30,10 +30,11 @@ io.on('connection', (socket) => {
 
     socket.join(user.room)
 
-    socket.emit('message', generateMessage('Welcome!'))
+    // 推測だが、第一引数に仮値を渡しておかないとHTMLの出力時にデータがズレる
+    socket.emit('message', generateMessage('Admin', 'Welcome!'))
     // Broadcasting Event
     // to()で、room名をキーに複数分岐させる
-    socket.broadcast.to(user.room).emit('message', generateMessage(`${user.username} has joined!`))
+    socket.broadcast.to(user.room).emit('message', generateMessage('Admin', `${user.username} has joined!`))
 
     callback()
   })
@@ -48,7 +49,7 @@ io.on('connection', (socket) => {
       return callback('Profanity is not allowed!')
     }
 
-    io.to(user.room).emit('message', generateMessage(message))
+    io.to(user.room).emit('message', generateMessage(user.username, message))
     callback()
   })
 
@@ -57,7 +58,7 @@ io.on('connection', (socket) => {
     const user = removeUser(socket.id)
 
     if (user) {
-      io.to(user.room).emit('message', generateMessage(`${ user.username } has left!`))
+      io.to(user.room).emit('message', generateMessage('Admin', `${ user.username } has left!`))
     }
   })
 

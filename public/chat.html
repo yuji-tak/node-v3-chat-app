@@ -45,7 +45,7 @@
 
     <form id="message-form">
       <label for="msg">Come on🤩</label>
-      <input id="msg" type="text" placeholder="Message">
+      <input id="msg" type="text" placeholder="Message" required>
       <button>Send</button>
     </form>
 
@@ -55,7 +55,7 @@
   <script id="message-template" type="text/html">
     <div class="style message">
       <p>
-        <span class="message__name">Some User Name</span>
+        <span class="message__name">{{username}}</span>
         <span class="message__meta">{{createdAt}}</span>
       </p>
       <p>{{message}}</p>
