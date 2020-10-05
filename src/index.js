@@ -1,18 +1,21 @@
 // server side
+// コアモジュール
 const path = require('path')
 const http = require('http')
+// モジュール
 const express = require('express')
 const socketio = require('socket.io')
-// bad-words library
 const Filter = require('bad-words')
 // module.exports
 const { generateMessage, generateLocationMessage } = require('./utils/messages')
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./utils/users')
 
+// socketioの環境構築
 const app = express()
 const server = http.createServer(app)
 const io = socketio(server)
 
+// port、表示する静的ページへのファイルパス
 const port = process.env.PORT || 3000
 const publicDirectoryPath = path.join(__dirname, '../public')
 app.use(express.static(publicDirectoryPath))
@@ -28,12 +31,13 @@ io.on('connection', (socket) => {
       return callback(error)
     }
 
+    // socket.join()を使用することで、特定のroomを指定できる
     socket.join(user.room)
 
     // 推測だが、第一引数に仮値を渡しておかないとHTMLの出力時にデータがズレる
     socket.emit('message', generateMessage('Admin', 'Welcome!'))
     // Broadcasting Event
-    // to()で、room名をキーに複数分岐させる
+    // to()で、room名をキーに複数分岐させる→emit時に指定する必要がある
     socket.broadcast.to(user.room).emit('message', generateMessage('Admin', `${user.username} has joined!`))
     io.to(user.room).emit('roomData', {
       room: user.room,

@@ -1,7 +1,7 @@
 const users = []
 
 // ⭐️要件定義
-// addUser, removeUser, get User, getUserInRoom
+// addUser, removeUser, getUser, getUserInRoom
 
 const addUser = ({ id, username, room }) => {
   // Clean the data
